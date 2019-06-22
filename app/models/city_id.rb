@@ -1,0 +1,2 @@
+class CityId < ApplicationRecord
+end

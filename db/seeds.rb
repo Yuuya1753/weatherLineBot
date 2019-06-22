@@ -5,3 +5,8 @@
 #
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
+json = ActiveSupport::JSON.decode(File.read('db/city_ids.json'))
+
+json.each do |data|
+  CityId.create(city:data['city'], city_id:data['id'])
+end
