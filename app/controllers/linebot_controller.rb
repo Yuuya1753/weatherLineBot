@@ -109,7 +109,7 @@ class LinebotController < ApplicationController
         weather += "
 最低気温は#{weatherList['forecasts'][i]['temperature']['min']['celsius']}℃"
       end
-      if weatherList['forecasts'][i]['temperature']['max'].nil?
+      if weatherList['forecasts'][i]['temperature']['max'].nil? and !weatherList['forecasts'][i]['temperature']['min'].nil?
         weather += "です。"
       else
         if !weatherList['forecasts'][i]['temperature']['min'].nil?
