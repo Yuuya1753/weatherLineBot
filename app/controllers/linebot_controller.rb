@@ -112,7 +112,10 @@ class LinebotController < ApplicationController
       if weatherList['forecasts'][i]['temperature']['max'].nil?
         weather += "です。"
       else
-        weather += "で、
+        if !weatherList['forecasts'][i]['temperature']['min'].nil?
+          weather += "で、"
+        end
+        weather += "
 最高気温は#{weatherList['forecasts'][i]['temperature']['max']['celsius']}℃です。"
       end
     end
