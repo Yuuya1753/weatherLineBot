@@ -104,19 +104,26 @@ class LinebotController < ApplicationController
       end
       date = weatherList['forecasts'][i]['date'].split('-')
       dateObject = Date.new(date[0].to_i, date[1].to_i, date[2].to_i)
+      minTemperature = weatherList['forecasts'][i]['temperature']['min']
+      maxTemperature = weatherList['forecasts'][i]['temperature']['max']
       weather = "#{weatherList['forecasts'][i]['dateLabel']}（#{dateObject.strftime("%Y年 %m月 %d日")}）の#{weatherList['location']['city']}周辺の天気は、#{weatherList['forecasts'][i]['telop']}です。"
-      if !weatherList['forecasts'][i]['temperature']['min'].nil?
+      if !minTemperature.nil?
         weather += "
-最低気温は#{weatherList['forecasts'][i]['temperature']['min']['celsius']}℃"
+最低気温は#{minTemperature['celsius']}℃"
       end
-      if weatherList['forecasts'][i]['temperature']['max'].nil? and !weatherList['forecasts'][i]['temperature']['min'].nil?
+      if maxTemperature.nil? and !minTemperature.nil?
         weather += "です。"
-      else
-        if !weatherList['forecasts'][i]['temperature']['min'].nil?
-          weather += "で、"
-        end
+      end
+      if !minTemperature.nil? and !maxTemperature.nil?
+        weather += "で、"
+      end
+      if !maxTemperature.nil?
         weather += "
-最高気温は#{weatherList['forecasts'][i]['temperature']['max']['celsius']}℃です。"
+最高気温は#{maxTemperature['celsius']}℃です。"
+      end
+      if minTemperature.nil? and maxTemperature.nil?
+        weather += "
+気温の情報は取得できませんでした。"
       end
     end
     return weather
