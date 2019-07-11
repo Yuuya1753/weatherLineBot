@@ -102,11 +102,15 @@ class LinebotController < ApplicationController
       else
         return 'error'
       end
-      date = weatherList['forecasts'][i]['date'].split('-')
+      forecasts = weatherList['forecasts']
+      if forecasts[i].nil?
+        return "天気が取得できませんでした。"
+      end
+      date = forecasts[i]['date'].split('-')
       dateObject = Date.new(date[0].to_i, date[1].to_i, date[2].to_i)
-      minTemperature = weatherList['forecasts'][i]['temperature']['min']
-      maxTemperature = weatherList['forecasts'][i]['temperature']['max']
-      weather = "#{weatherList['forecasts'][i]['dateLabel']}（#{dateObject.strftime("%Y年 %m月 %d日")}）の#{weatherList['location']['city']}周辺の天気は、#{weatherList['forecasts'][i]['telop']}です。"
+      minTemperature = forecasts[i]['temperature']['min']
+      maxTemperature = forecasts[i]['temperature']['max']
+      weather = "#{forecasts[i]['dateLabel']}（#{dateObject.strftime("%Y年 %m月 %d日")}）の#{weatherList['location']['city']}周辺の天気は、#{forecasts[i]['telop']}です。"
       if !minTemperature.nil?
         weather += "
 最低気温は#{minTemperature['celsius']}℃"
